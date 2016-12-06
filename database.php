@@ -117,14 +117,14 @@
         }
     }
 
-    function add_user($fName, $pass, $lName, $email, $number, $address, $attendee, $comOrg, $sex) {
-        if(!empty($fName) && !empty($pass) && !empty($lName) && !empty($email) && !empty($number) && !empty($address) && !empty($attendee) && !empty($comOrg) && !empty($sex))
+    function add_user($fName, $pass, $lName, $email, $number, $address, $comOrg, $sex) {
+        if(!empty($fName) && !empty($pass) && !empty($lName) && !empty($email) && !empty($number) && !empty($address) && !empty($comOrg) && !empty($sex))
         {
             global $db;
             $query = "INSERT INTO users
-                    (fname, password, lname, email, number, address, attendee, company, sex)
+                    (fname, password, lname, email, number, address, company, sex)
                       VALUES
-                    ('$fName', '$pass', '$lName', '$email', '$number', '$address', '$attendee', '$comOrg', '$sex')";
+                    ('$fName', '$pass', '$lName', '$email', '$number', '$address', '$comOrg', '$sex')";
             $db->prepare($query)->execute();
         }
     }
@@ -292,6 +292,16 @@
         }
     }
 
+    function get_user_cards($useremail) {
+        if(!empty($useremail))
+        {
+            global $db;
+            $rpquery = "SELECT cardnumber FROM paymentinfo WHERE paymentinfo.`useremail`='$useremail'";
+            $papers = $db->query($rpquery);
+            return $papers;
+        }
+    }
+
     function add_cart($proid, $uemail, $quantity) {
         if((!empty($proid) && !empty($uemail) && !empty($quantity)))
         {
@@ -301,6 +311,40 @@
                       VALUES
                 ('$uemail', '$proid', '$quantity')"; 
             $db->prepare($query)->execute();
+        }
+    }
+
+    function pay_transaction($paymentcard, $uemail) {
+        if((!empty($paymentcard) && !empty($uemail)))
+        {
+            $usercart = get_cart_details($uemail);
+
+            $total = 0;
+            foreach ($usercart as $uc){
+                $total = $total + ($uc["quantity"] * $uc["price"]);
+            }
+            global $db;
+            $querytrans = "INSERT INTO transactions
+                (useremail, totalprice, card)
+                      VALUES
+                ('$uemail', '$total', '$paymentcard')"; 
+            $db->prepare($querytrans)->execute();
+            $transactionid = mysqli_insert_id($db);
+            
+            foreach ($usercart as $uc){
+                global $db;
+                $quan = $uc["quantity"];
+                $pid = $uc["productid"];
+                $queryup = "INSERT INTO userproduct
+                (useremail, productid, transactionid, quantity)
+                      VALUES
+                ('$uemail', '$pid','$transactionid' , '$quan')";
+                $db->prepare($queryup)->execute();
+            }
+
+            global $db;
+            $querydel = "DELETE FROM cart";
+            $db->prepare($querydel)->execute();
         }
     }
 

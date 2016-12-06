@@ -289,10 +289,10 @@ if(!empty($_SESSION["id"]))
                                     <?php foreach ( $user_pays as $upay ) : ?>
                                         <tr>
                                             <td><input class="check" xname="check" onclick="oncheck(event, false)" type="checkbox"></td>
-                                            <td><input disabled readonly class="ainputtext" xname="ucno" value='<?php echo $upay['cardnumber']; ?>' ></td>
-                                            <td><input disabled class="ainputtext" xname="uctype" value='<?php echo $upay['cardtype']; ?>' ></td>
-                                            <td><input disabled class="ainputtext" xname="ucvv" value='<?php echo $upay['cvv']; ?>' ></td>
-                                            <td><input disabled class="ainputtext" xname="uexpiry" value='<?php echo $upay['expiry']; ?>' ></td>
+                                            <td><input readonly disabled class="ainputtext" xname="ucno" value='<?php echo $upay['cardnumber']; ?>' ></td>
+                                            <td><input readonly disabled class="ainputtext" xname="uctype" value='<?php echo $upay['cardtype']; ?>' ></td>
+                                            <td><input readonly disabled class="ainputtext" xname="ucvv" value='<?php echo $upay['cvv']; ?>' ></td>
+                                            <td><input readonly disabled class="ainputtext" xname="uexpiry" value='<?php echo $upay['expiry']; ?>' ></td>
                                         </tr>
                                     <?php endforeach; ?>
                                         <tr>
@@ -304,6 +304,7 @@ if(!empty($_SESSION["id"]))
                                         </tr>
                                     </tbody>
                                 </table>
+                                <input name="email" value='<?php echo $user['email']; ?>' style="display:none">
                             </form>
                         </div>
                     </div>

@@ -5,6 +5,7 @@ if(!empty($_SESSION["id"]))
     require_once('../database.php');
     $user = get_user($_SESSION["id"]);
     $cart = get_cart_details($user["email"]);
+    $carddetails = get_user_cards($user["email"]);
 }
 ?>
 <!DOCTYPE html>
@@ -20,6 +21,7 @@ if(!empty($_SESSION["id"]))
     <div id="container">
         <?php include('../headerview.php') ?>
         <div id="entrycontent">
+            <?php if(!empty($_SESSION["id"])) : ?>
             <div class="pvl toolbar">
                 <div class="_52lq">Summary</div>
             </div>
@@ -48,12 +50,28 @@ if(!empty($_SESSION["id"]))
             <div class="footerbtns">
                 <form action="../model.php" method="post" id="checkoutform" name="checkoutform">
                     <div class="toolbar">
-                        <button id="continue" class="u_admin_toolbar" onclick="document.location.href='../catalog';">Select Payment</button>
-                        <button id="checkout" class="u_admin_toolbar" onclick="document.location.href='../checkout';">Pay</button>
+                        <select class="u_admin_toolbar" name="paymentcard">
+                            <?php foreach ( $carddetails as $cd ) : ?>
+                                <option value='<?php echo $cd['cardnumber']; ?>' title='<?php echo $cd['cardnumber']; ?>'><?php echo $cd['cardnumber']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                        <button id="checkout" type="submit" class="u_admin_toolbar" name="websubmit" value="pay_transaction">Pay</button>
                     </div>
                     <input name="email" value='<?php echo $user['email']; ?>' style="display:none">
                 </form>
             </div>
+            <?php else : ?>
+            <div id="signup">
+                <div class="pvl">
+                    <div class="_52lt">Summary</div>
+                </div>
+                <div id="reg_form_box" class="large_form">
+                    <div class="pvl">
+                        <div class="_52lt">Please <a style="text-decoration:none" href="../signup">Sign-up</a> or Sign-in on header to checkout.</div>
+                    </div>
+                </div>
+            </div>
+            <?php endif; ?>
         </div>
         <?php include('../footerview.php') ?>
     </div>

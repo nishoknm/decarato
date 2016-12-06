@@ -1,10 +1,10 @@
 <?php
 session_start();
+require_once('../database.php');
+$products = get_products();
 if(!empty($_SESSION["id"]))
 {
-    require_once('../database.php');
     $user = get_user($_SESSION["id"]);
-    $products = get_products();
 }
 ?>
 <!DOCTYPE html>

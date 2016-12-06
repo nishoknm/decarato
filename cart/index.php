@@ -98,6 +98,7 @@ if(!empty($_SESSION["id"]))
     <div id="container">
         <?php include('../headerview.php') ?>
         <div id="entrycontent">
+            <?php if(!empty($_SESSION["id"])) : ?>
             <div class="pvl toolbar">
                 <div class="_52lq">Edit Cart</div>
             </div>
@@ -141,6 +142,18 @@ if(!empty($_SESSION["id"]))
                     <button id="checkout" class="u_admin_toolbar" onclick="document.location.href='../checkout';">Checkout</button>
                 </div>
             </div>
+            <?php else : ?>
+            <div id="signup">
+                <div class="pvl">
+                    <div class="_52lt">Edit Cart</div>
+                </div>
+                <div id="reg_form_box" class="large_form">
+                    <div class="pvl">
+                        <div class="_52lt">Please <a style="text-decoration:none" href="../signup">Sign-up</a> or Sign-in on header to Edit Cart.</div>
+                    </div>
+                </div>
+            </div>
+            <?php endif; ?>
         <?php include('../footerview.php') ?>
     </div>
 </body>

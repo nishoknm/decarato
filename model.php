@@ -39,11 +39,10 @@
                 $email = $_POST['email'];
                 $number = $_POST['number'];
                 $address = $_POST['address'];
-                $attendee = $_POST['attendee'];
                 $comOrg = $_POST['comOrg'];
                 $pass = $_POST['password'];
                 $sex = $_POST['sex'];
-                add_user($fName, $pass, $lName, $email, $number, $address, $attendee, $comOrg, $sex);
+                add_user($fName, $pass, $lName, $email, $number, $address, $comOrg, $sex);
                 $_SESSION["id"] = $email;
                 break;
 
@@ -57,13 +56,13 @@
                 upload_file($file_title, $file, $file_type, $file_size, $email, $file_loc);
                 break;
 
-            case "reviewer_login":
+            case "owner_login":
                 $email = $_POST['uname'];
                 $pass = $_POST['pass'];
                 $reviewer = get_reviewer_email_pass($email, $pass);
                 $newemail = $reviewer['email'];
                 $_SESSION["id"] = $newemail;
-                $_SESSION["reviewer"] = $newemail;
+                $_SESSION["owner"] = $newemail;
                 break;
 
             case "admin_logout":
@@ -131,6 +130,13 @@
                 $quantity = 1;
                 add_cart($proid, $uemail, $quantity);
                 $extender = "../cart";
+                break;
+
+            case "pay_transaction":
+                $paymentcard = $_POST['paymentcard'];
+                $uemail = $_POST['email'];
+                pay_transaction($paymentcard, $uemail);
+                $extender = "../greetings";
                 break;
 
             case "delete_rpaper":

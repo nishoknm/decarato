@@ -1,9 +1,9 @@
 <?php
 session_start();
-if(!empty($_SESSION["reviewer"]))
+if(!empty($_SESSION["owner"]))
 {
     require_once('../database.php');
-    $papers = get_review_papers_by_email($_SESSION["reviewer"]);
+    $papers = get_review_papers_by_email($_SESSION["owner"]);
 }
 ?>
 <!DOCTYPE html>
@@ -30,10 +30,10 @@ if(!empty($_SESSION["reviewer"]))
     <div id="container">
         <?php include('../headerview.php') ?>
         <div id="entrycontent">
-            <?php if(empty($_SESSION["reviewer"])) : ?>
+            <?php if(empty($_SESSION["owner"])) : ?>
             <div id="signup">
                 <div class="pvl">
-                    <div class="_52lq">Reviewer Login</div>
+                    <div class="_52lq">Owner Login</div>
                 </div>
                 <form action="../model.php" method="post" id="reg" name="reg">
                     <div id="reg_form_box" class="large_form">
@@ -50,7 +50,7 @@ if(!empty($_SESSION["reviewer"]))
                             </div>
                         </div>
                         <div class="clearfix">
-                            <button type="submit" class="_52lq" name="websubmit" value="reviewer_login" id="u_0_9">Login</button>
+                            <button type="submit" class="_52lq" name="websubmit" value="owner_login" id="u_0_9">Login</button>
                         </div>
                     </div>
                 </form>
