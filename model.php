@@ -18,9 +18,10 @@
             case "login":
                 $email = $_POST['email'];
                 $pass = $_POST['password'];
-                $user = get_user_email_pass($email, $pass);
-                $newemail = $user['email'];
-                $_SESSION["id"] = $newemail;
+                $user = get_user_email_pass($email);
+                if(password_verify($pass, $user['password'])){
+                    $_SESSION["id"] = $email;
+                }
                 break;
 
             case "comments":
@@ -42,7 +43,7 @@
                 $comOrg = $_POST['comOrg'];
                 $pass = $_POST['password'];
                 $sex = $_POST['sex'];
-                add_user($fName, $pass, $lName, $email, $number, $address, $comOrg, $sex);
+                add_user($fName, password_hash($pass, PASSWORD_DEFAULT), $lName, $email, $number, $address, $comOrg, $sex);
                 $_SESSION["id"] = $email;
                 break;
 
@@ -130,6 +131,11 @@
                 $quantity = 1;
                 add_cart($proid, $uemail, $quantity);
                 $extender = "../cart";
+                break;
+
+            case "selectcategory":
+                $_SESSION["catid"] = $_POST['catid'];
+                $extender = "../catalog";
                 break;
 
             case "pay_transaction":

@@ -42,6 +42,21 @@
         return $papers;
     }
 
+    function get_products_cat($id) {
+        global $db;
+        $pquery = "SELECT * FROM product WHERE type = '$id'";
+        $papers = $db->query($pquery);
+        return $papers;
+    }
+
+    function get_categories() {
+        global $db;
+        $pquery = "SELECT * FROM category";
+        $papers = $db->query($pquery);
+        return $papers;
+    }
+
+
     function get_paper($email) {
         if(!empty($email))
         {
@@ -76,11 +91,11 @@
         return $comments;
     }
 
-    function get_user_email_pass($email, $pass) {
-        if(!empty($email) && !empty($pass))
+    function get_user_email_pass($email) {
+        if(!empty($email))
         {
             global $db;
-            $query = "SELECT password, email FROM users WHERE email = '$email' AND password = '$pass'";
+            $query = "SELECT password FROM users WHERE email = '$email'";
             $users = $db->query($query);
             $user = mysqli_fetch_assoc($users);
             return $user;

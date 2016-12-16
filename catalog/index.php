@@ -1,7 +1,23 @@
 <?php
 session_start();
 require_once('../database.php');
-$products = get_products();
+if(!empty($_SESSION["catid"]))
+{
+    $cat = $_SESSION["catid"];
+    if($cat != "all")
+    {
+        $products = get_products_cat($cat);
+    }
+    else
+    {
+        $products = get_products();
+    }
+}
+else
+{
+    $products = get_products();
+}
+$categories = get_categories();
 if(!empty($_SESSION["id"]))
 {
     $user = get_user($_SESSION["id"]);
@@ -29,6 +45,15 @@ if(!empty($_SESSION["id"]))
             var currentForm = proEle.form;
             currentForm.submit();
         }
+
+        function selectCategory(event){
+            var element = event.target;
+            element.setAttribute("name", element.getAttribute("xname"));
+            var catid = element.previousElementSibling;
+            catid.setAttribute("name", catid.getAttribute("xname"));
+            var currentForm = element.form;
+            currentForm.submit();
+        }
         </script>
 </head>
 
@@ -37,6 +62,18 @@ if(!empty($_SESSION["id"]))
         <?php include('../headerview.php') ?>
         <div id="entrycontent">
             <form action="../model.php" method="post" name="catalogform">
+                <ul class="categories">
+                    <li>
+                        <input xname="catid" value='all' style="display:none">
+                        <button xname="websubmit" value="selectcategory" onclick="selectCategory(event);">ALL</button>
+                    </li>
+                    <?php foreach ( $categories as $category ) : ?>
+                    <li>
+                        <input xname="catid" value='<?php echo $category['id']; ?>' style="display:none">
+                        <button xname="websubmit" value="selectcategory" onclick="selectCategory(event);"><?php echo $category['title']; ?></button>
+                    </li>
+                    <?php endforeach; ?>   
+                </ul>
                 <ul class="products">
                 <?php foreach ( $products as $product ) : ?>
                     <li>
