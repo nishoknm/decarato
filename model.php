@@ -24,16 +24,6 @@
                 }
                 break;
 
-            case "comments":
-                $fname = $_POST['fname'];
-                $lname = $_POST['lname'];
-                $email = $_POST['email'];
-                $number = $_POST['number'];
-                $subject = $_POST['subject'];
-                $comment = $_POST['comment'];
-                add_comments($fname, $lname, $email, $number, $subject, $comment);
-                break;
-
             case "signup":
                 $fName = $_POST['fName'];
                 $lName = $_POST['lName'];
@@ -45,16 +35,6 @@
                 $sex = $_POST['sex'];
                 add_user($fName, password_hash($pass, PASSWORD_DEFAULT), $lName, $email, $number, $address, $comOrg, $sex);
                 $_SESSION["id"] = $email;
-                break;
-
-            case "upload":
-                $file = $_FILES['file']['name'];
-                $file_title = $_POST['title'];
-                $email = $_SESSION["id"];
-                $file_loc = $_FILES['file']['tmp_name'];
-                $file_size = $_FILES['file']['size'];
-                $file_type = $_FILES['file']['type'];
-                upload_file($file_title, $file, $file_type, $file_size, $email, $file_loc);
                 break;
 
             case "owner_login":
@@ -76,36 +56,6 @@
                 $user = get_admin_email_pass($email, $pass);
                 $newemail = $user['email'];
                 $_SESSION["admin"] = $newemail;
-                break;
-
-            case "delete_reviewer":
-                $email = $_POST['uemail'];
-                delete_reviewer($email);
-                $extender = "#reviewer";
-                break;
-
-            case "update_reviewer":
-                $fname = $_POST['ufName'];
-                $lname = $_POST['ulName'];
-                $email = $_POST['uemail'];
-                $number = $_POST['unumber'];
-                $address = $_POST['uaddress'];
-                $sex = $_POST['usex'];
-                $pass = $_POST['upassword'];
-                update_reviewer_by_email($fname, $lname, $email, $number, $address, $sex, $pass);
-                $extender = "#reviewer";
-                break;
-
-            case "add_reviewer":
-                $fname = $_POST['fName'];
-                $lname = $_POST['lName'];
-                $email = $_POST['email'];
-                $number = $_POST['number'];
-                $address = $_POST['address'];
-                $sex = $_POST['sex'];
-                $pass = $_POST['password'];
-                add_reviewer($fname, $lname, $email, $number, $address, $sex, $pass);
-                $extender = "#reviewer";
                 break;
 
             case "delete_pay":
@@ -143,29 +93,6 @@
                 $uemail = $_POST['email'];
                 pay_transaction($paymentcard, $uemail);
                 $extender = "../greetings";
-                break;
-
-            case "delete_rpaper":
-                $email = $_POST['rfemail'];
-                $paperid = $_POST['rftitle'];
-                delete_rpaper($email, $paperid);
-                $extender = "#rpaper";
-                break;
-
-            case "update_rpaper":
-                $email = $_POST['rfemail'];
-                $paperid = $_POST['rftitle'];
-                $old_email = $_POST['old_email'];
-                $old_paperid = $_POST['old_paperid'];
-                update_rpaper($email, $paperid, $old_email, $old_paperid);
-                $extender = "#rpaper";
-                break;
-
-            case "add_rpaper":
-                $email = $_POST['email'];
-                $paperid = $_POST['title'];
-                add_rpaper($email, $paperid);
-                $extender = "#rpaper";
                 break;
 
             case "delete_user":
