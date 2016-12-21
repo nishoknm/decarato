@@ -99,49 +99,62 @@ if(!empty($_SESSION["id"]))
         <?php include('../headerview.php') ?>
         <div id="entrycontent">
             <?php if(!empty($_SESSION["id"])) : ?>
-            <div class="pvl toolbar">
-                <div class="_52lq">Edit Cart</div>
-            </div>
-            <div>
-                <form action="../model.php" method="post" id="cartform" name="cartform">
-                    <div class="toolbar">
-                        <button id="delete" disabled class="u_admin_toolbar" type="submit" name="websubmit" value="delete_cart">Delete</button>
-                        <button id="update" disabled class="u_admin_toolbar" type="submit" name="websubmit" value="update_cart">Update</button>
+                <?php if(!empty($_SESSION["owner"])) : ?>
+                    <div id="signup">
+                        <div class="pvl">
+                            <div class="_52lt">Owner</div>
+                        </div>
+                        <div id="reg_form_box" class="large_form">
+                            <div class="pvl">
+                                <div class="_52lt">Not Available for Owner</div>
+                            </div>
+                        </div>
                     </div>
-                    <table class="admint">
-                        <thead>
-                            <tr>
-                                <th class="checkcell"></th>
-                                <th><input class="ainputtext" readonly value="Product"></th>
-                                <th><input class="ainputtext" readonly value="Product Name"></th>
-                                <th><input class="ainputtext" readonly value="Quantity"></th>
-                                <th><input class="ainputtext" readonly value="Price"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        <?php foreach ( $cart as $ct ) : ?>
-                            <tr>
-                                <td><input class="check" xname="check" onclick="oncheck(event, false)" type="checkbox"></td>
-                                <td>
-                                    <input xname="prodid" value='<?php echo $ct['productid']; ?>' style="display:none">
-                                    <input disabled readonly class="ainputtext" alwaysdisable=true xname="prodid" value='<?php echo $ct['productid']; ?>' >
-                                </td>
-                                <td><input disabled class="ainputtext" alwaysdisable=true xname="title" value='<?php echo $ct['title']; ?>' ></td>
-                                <td><input disabled class="ainputtext" xname="quantity" value='<?php echo $ct['quantity']; ?>' ></td>
-                                <td><input disabled class="ainputtext" alwaysdisable=true xname="price" value='<?php echo $ct['price']; ?>' ></td>
-                            </tr>
-                        <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                    <input name="email" value='<?php echo $user['email']; ?>' style="display:none">
-                </form>
-            </div>
-            <div class="footerbtns">
-                <div class="toolbar">
-                    <button id="continue" class="u_admin_toolbar" onclick="document.location.href='../catalog';">Continue Shopping</button>
-                    <button id="checkout" class="u_admin_toolbar" onclick="document.location.href='../checkout';">Checkout</button>
-                </div>
-            </div>
+                <?php else : ?>
+                    <div class="pvl toolbar">
+                        <div class="_52lq">Edit Cart</div>
+                    </div>
+                    <div>
+                        <form action="../model.php" method="post" id="cartform" name="cartform">
+                            <div class="toolbar">
+                                <button id="delete" disabled class="u_admin_toolbar" type="submit" name="websubmit" value="delete_cart">Delete</button>
+                                <button id="update" disabled class="u_admin_toolbar" type="submit" name="websubmit" value="update_cart">Update</button>
+                            </div>
+                            <table class="admint">
+                                <thead>
+                                    <tr>
+                                        <th class="checkcell"></th>
+                                        <th><input class="ainputtext" readonly value="Product"></th>
+                                        <th><input class="ainputtext" readonly value="Product Name"></th>
+                                        <th><input class="ainputtext" readonly value="Quantity"></th>
+                                        <th><input class="ainputtext" readonly value="Price"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <?php foreach ( $cart as $ct ) : ?>
+                                    <tr>
+                                        <td><input class="check" xname="check" onclick="oncheck(event, false)" type="checkbox"></td>
+                                        <td>
+                                            <input xname="prodid" value='<?php echo $ct['productid']; ?>' style="display:none">
+                                            <input disabled readonly class="ainputtext" alwaysdisable=true xname="prodid" value='<?php echo $ct['productid']; ?>' >
+                                        </td>
+                                        <td><input disabled class="ainputtext" alwaysdisable=true xname="title" value='<?php echo $ct['title']; ?>' ></td>
+                                        <td><input disabled class="ainputtext" xname="quantity" value='<?php echo $ct['quantity']; ?>' ></td>
+                                        <td><input disabled class="ainputtext" alwaysdisable=true xname="price" value='<?php echo $ct['price']; ?>' ></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                            <input name="email" value='<?php echo $user['email']; ?>' style="display:none">
+                        </form>
+                    </div>
+                    <div class="footerbtns">
+                        <div class="toolbar">
+                            <button id="continue" class="u_admin_toolbar" onclick="document.location.href='../catalog';">Continue Shopping</button>
+                            <button id="checkout" class="u_admin_toolbar" onclick="document.location.href='../checkout';">Checkout</button>
+                        </div>
+                    </div>
+                <?php endif; ?>
             <?php else : ?>
             <div id="signup">
                 <div class="pvl">

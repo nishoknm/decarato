@@ -693,6 +693,7 @@ section div:target {
     min-width: 50%;
     padding-top: 50px;
     padding-left: 28px;
+    padding-bottom: 20px;
 }
 
 #u_admin_review {

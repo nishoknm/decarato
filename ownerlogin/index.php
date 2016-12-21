@@ -3,7 +3,14 @@ session_start();
 if(!empty($_SESSION["owner"]))
 {
     require_once('../database.php');
-    $papers = get_review_papers_by_email($_SESSION["owner"]);
+    $owner = get_owner($_SESSION["owner"]);
+    $newemail = $owner['email'];
+    $fName = $owner['fname'];
+    $lName = $owner['lname'];
+    $number = $owner['number'];
+    $address = $owner['address'];
+    $pass = $owner['password'];
+    $sex = $owner['sex'];
 }
 ?>
 <!DOCTYPE html>
@@ -12,23 +19,43 @@ if(!empty($_SESSION["owner"]))
 <head>
     <link rel="stylesheet" type="text/css" href="../default.css">
     <script>
-    var pdfFrame;
-    function viewPaper(event) {
-        pdfFrame = pdfFrame ? pdfFrame : document.getElementById("pdfviewer");
-        var pdfWindow = pdfFrame.contentWindow;
-        pdfFrame.style.border = 0;
-        var element = event.target;
-        var elements = document.getElementsByName("papertitle");
-        for(var i=0; i< elements.length; i++) elements[i].classList.remove("paperactive");
-        element.classList.add("paperactive");
-        pdfWindow.location.href = "../uploads/"+element.previousElementSibling.textContent;
-    }
+    
     </script>
 </head>
 
 <body>
     <div id="container">
-        <?php include('../headerview.php') ?>
+        <div id="header">
+            <div>
+                <div style="float:right;height:70px">
+                    <ul id="sublist">
+                    <?php if(empty($_SESSION["owner"])) : ?>
+                        <li><a href="../ownerlogin">Product Owner Login</a></li>
+                    <?php endif; ?>
+                    </ul>
+                    <div id="login">
+                        <?php if(!empty($_SESSION["owner"])) : ?>
+                            Logged in as :
+                            <?php echo $_SESSION["owner"] ?>
+                                <form action="../model.php" method="post" id="logout" name="logout" class="formlogout">
+                                    <button type="submit" class="loginoutbutton" name="websubmit" value="logout" id="u_0_11">Logout</button>
+                                </form>
+                            <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+            <div id="multicolor-bar">
+                <div class="col-xs-2 colorblock-1"></div>
+                <div class="col-xs-2 colorblock-2"></div>
+                <div class="col-xs-2 colorblock-3"></div>
+                <div class="col-xs-2 colorblock-4"></div>
+                <div class="col-xs-2 colorblock-5"></div>
+                <div class="col-xs-2 colorblock-6"></div>
+            </div>
+            <ul id="mainlist">
+                <li><a href="../product">Products</a></li>
+            </ul>
+        </div>
         <div id="entrycontent">
             <?php if(empty($_SESSION["owner"])) : ?>
             <div id="signup">
@@ -56,20 +83,43 @@ if(!empty($_SESSION["owner"]))
                 </form>
             </div>
             <?php else : ?>
-            <div id="upload-signup">
-                <div class="pvl">
-                    <div class="_52lt">Review Papers</div>
-                </div>
-                <?php foreach ( $papers as $paper ) : ?>
-                    <div class="mbm">
-                        <div class="uiStickyPlaceholderInput uiStickyPlaceholderEmptyInput">
-                            <div id="pathdiv" style="display:none"><?php echo $paper['file']; ?></div>
-                            <div id="paperdiv" onclick="viewPaper(event)" disabled name="papertitle" type="text" class="inputtext transparent _58mg"><?php echo $paper['title']; ?></div>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
+            <div class="pvl">
+                <div class="_52lq">User Information</div>
             </div>
-            <iframe id="pdfviewer" class="pdfviewer" src="../defaultpreviewer.html"></iframe>
+            <div id="reg_form_box" class="large_form">
+                <div class="mbm">
+                    <div class="uiStickyPlaceholderInput uiStickyPlaceholderEmptyInput">
+                        <div class="placeholder"><b>Full Name : </b>
+                            <?php echo $lName.", ".$fName ?>
+                        </div>
+                        <input disabled name="name" type="text" class="inputtext transparent _58mg">
+                    </div>
+                </div>
+                <div class="mbm">
+                    <div class="uiStickyPlaceholderInput uiStickyPlaceholderEmptyInput">
+                        <div class="placeholder"><b>E-mail : </b>
+                            <?php echo $newemail ?>
+                        </div>
+                        <input disabled name="email" type="text" class="inputtext transparent _58mg">
+                    </div>
+                </div>
+                <div class="mbm">
+                    <div class="uiStickyPlaceholderInput uiStickyPlaceholderEmptyInput">
+                        <div class="placeholder"><b>Number : </b>
+                            <?php echo $number ?>
+                        </div>
+                        <input disabled name="number" type="text" class="inputtext transparent _58mg">
+                    </div>
+                </div>
+                <div class="mbm">
+                    <div class="uiStickyPlaceholderInput uiStickyPlaceholderEmptyInput">
+                        <div class="placeholder"><b>Address : </b>
+                            <?php echo $address ?>
+                        </div>
+                        <input disabled name="address" type="text" class="inputtext transparent _58mg">
+                    </div>
+                </div>
+            </div>
             <?php endif; ?>
         </div>
         <?php include('../footerview.php') ?>

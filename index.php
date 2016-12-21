@@ -57,8 +57,21 @@ if(!empty($_SESSION["id"])){
                 </ul>
             </div>
             <div id="entrycontent">
-                <div class="slider" id="slider"></div>
-                <h1 class="_52lc">Decarator Interior Crafts - Better comfort </h1>
+                <?php if(!empty($_SESSION["id"])) : ?>
+                    <div class="slider" id="slider"></div>
+                    <h1 class="_52lc">Decarator Interior Crafts - Better comfort </h1>
+                <?php else : ?>
+                    <div id="signup">
+                        <div class="pvl">
+                            <div class="_52lt">Home</div>
+                        </div>
+                        <div id="reg_form_box" class="large_form">
+                            <div class="pvl">
+                                <div class="_52lt">Please <a style="text-decoration:none" href="../signup">Sign-up</a> or Sign-in on header.</div>
+                            </div>
+                        </div>
+                    </div>
+                <?php endif; ?>
             </div>
             <div id="footer">
                 <div id="footertop">

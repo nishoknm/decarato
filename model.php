@@ -40,8 +40,8 @@
             case "owner_login":
                 $email = $_POST['uname'];
                 $pass = $_POST['pass'];
-                $reviewer = get_reviewer_email_pass($email, $pass);
-                $newemail = $reviewer['email'];
+                $owner = get_owner_email_pass($email, $pass);
+                $newemail = $owner['email'];
                 $_SESSION["id"] = $newemail;
                 $_SESSION["owner"] = $newemail;
                 break;
@@ -68,6 +68,10 @@
             case "add_card":
                 $uemail = $_POST['email']; 
                 $cno = $_POST['cno'];
+                if(is_numeric($cno))
+                {
+                    $cno = '';
+                }
                 $ctype = $_POST['ctype'];
                 $cvv = $_POST['cvv'];
                 $expiry = $_POST['expiry'];
@@ -85,6 +89,13 @@
 
             case "selectcategory":
                 $_SESSION["catid"] = $_POST['catid'];
+                $_SESSION["qid"] = '';
+                $extender = "../catalog";
+                break;
+
+            case "querycategory":
+                $_SESSION["catid"] = '';
+                $_SESSION["qid"] = $_POST['qid'];
                 $extender = "../catalog";
                 break;
 
@@ -127,6 +138,33 @@
                 $quantity = $_POST['quantity'];
                 update_cart($email, $prodid, $quantity);
                 $extender = "../cart";
+                break;
+
+            case "add_product":
+                $title = $_POST['title'];
+                $imagefile = $_POST['imagefile'];
+                $price = $_POST['price'];
+                $category = $_POST['type'];
+                $owneremail = $_POST['email'];
+                add_product($title, $imagefile, $category, $price, $owneremail);
+                $extender = "../product";
+                break;
+
+            case "delete_product":
+                $pid = $_POST['pid'];
+                delete_product($pid);
+                $extender = "../product";
+                break;
+
+            case "update_product":
+                $title = $_POST['utitle'];
+                $imagefile = $_POST['uimagefile'];
+                $price = $_POST['uprice'];
+                $category = $_POST['utype'];
+                $owneremail = $_POST['email'];
+                $pid = $_POST['pid'];
+                update_product($title, $imagefile, $category, $price, $owneremail, $pid);
+                $extender = "../product";
                 break;
 
             default:

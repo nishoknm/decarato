@@ -28,6 +28,17 @@
         return $users;
     }
 
+    function get_owner($email) {
+        if(!empty($email))
+        {
+            global $db;
+            $query = "SELECT * FROM owner WHERE email = '$email'";
+            $users = $db->query($query);
+            $owner = mysqli_fetch_assoc($users);
+            return $owner;
+        }
+    }
+
     function get_products() {
         global $db;
         $pquery = "SELECT * FROM product";
@@ -38,6 +49,20 @@
     function get_products_cat($id) {
         global $db;
         $pquery = "SELECT * FROM product WHERE type = '$id'";
+        $papers = $db->query($pquery);
+        return $papers;
+    }
+
+    function get_products_owner($id) {
+        global $db;
+        $pquery = "SELECT * FROM product WHERE owneremail = '$id'";
+        $products = $db->query($pquery);
+        return $products;
+    }
+
+    function get_products_query($id) {
+        global $db;
+        $pquery = "SELECT * FROM product WHERE title LIKE '%$id%'";
         $papers = $db->query($pquery);
         return $papers;
     }
@@ -95,6 +120,17 @@
         {
             global $db;
             $query = "SELECT password, email FROM admin WHERE email = '$email' AND password = '$pass'";
+            $users = $db->query($query);
+            $user = mysqli_fetch_assoc($users);
+            return $user;
+        }
+    }
+
+    function get_owner_email_pass($email, $pass) {
+        if((!empty($email) && !empty($pass)))
+        {
+            global $db;
+            $query = "SELECT password, email FROM owner WHERE email = '$email' AND password = '$pass'";
             $users = $db->query($query);
             $user = mysqli_fetch_assoc($users);
             return $user;
@@ -188,6 +224,36 @@
                 (useremail, productid, quantity)
                       VALUES
                 ('$uemail', '$proid', '$quantity')"; 
+            $db->prepare($query)->execute();
+        }
+    }
+
+    function add_product($title, $imagefile, $category, $price, $owneremail) {
+        if((!empty($title) && !empty($imagefile) && !empty($owneremail) && !empty($category) && !empty($price)))
+        {
+            global $db;
+            $query = "INSERT INTO product
+                (title, imagefile, type, owneremail, price)
+                      VALUES
+                ('$title', '$imagefile', '$category',  '$owneremail', '$price')"; 
+            $db->prepare($query)->execute();
+        }
+    }
+
+    function delete_product($pid) {
+        if((!empty($pid)))
+        {
+            global $db;
+            $query = "DELETE FROM product WHERE productid = '$pid'"; 
+            $db->prepare($query)->execute();
+        }
+    }
+
+    function update_product($title, $imagefile, $category, $price, $owneremail, $pid) {
+        if((!empty($title) && !empty($pid) && !empty($imagefile) && !empty($owneremail) && !empty($category) && !empty($price)))
+        {
+            global $db;
+            $query = "UPDATE product SET title = '$title', imagefile = '$imagefile', type = '$category', owneremail = '$owneremail', price = '$price' WHERE productid = '$pid' ";
             $db->prepare($query)->execute();
         }
     }
