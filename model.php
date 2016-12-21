@@ -40,10 +40,12 @@
             case "owner_login":
                 $email = $_POST['uname'];
                 $pass = $_POST['pass'];
-                $owner = get_owner_email_pass($email, $pass);
-                $newemail = $owner['email'];
-                $_SESSION["id"] = $newemail;
-                $_SESSION["owner"] = $newemail;
+                $owner = get_owner_email_pass($email);
+                if(password_verify($pass, $owner['password'])){
+                    $newemail = $owner['email'];
+                    $_SESSION["id"] = $newemail;
+                    $_SESSION["owner"] = $newemail;
+                }
                 break;
 
             case "admin_logout":
@@ -165,6 +167,91 @@
                 $pid = $_POST['pid'];
                 update_product($title, $imagefile, $category, $price, $owneremail, $pid);
                 $extender = "../product";
+                break;
+
+            case "add_catalog":
+                $title = $_POST['atitle'];
+                add_catalog($title);
+                $extender = "#catalog";
+                break;
+
+            case "delete_catalog":
+                $cid = $_POST['cid'];
+                delete_catalog($cid);
+                $extender = "#catalog";
+                break;
+
+            case "update_catalog":
+                $title = $_POST['uatitle'];
+                $cid = $_POST['cid'];
+                update_catalog($title, $cid);
+                $extender = "#catalog";
+                break;
+
+            case "add_owner":
+                $fname = $_POST['fName'];
+                $lname = $_POST['lName'];
+                $email = $_POST['email'];
+                $number = $_POST['number'];
+                $address = $_POST['address'];
+                $sex = $_POST['sex'];
+                $pass = $_POST['password'];
+                add_owner($fname, $lname, $email, $number, $address, $sex, password_hash($pass, PASSWORD_DEFAULT));
+                $extender = "#owner";
+                break;
+
+            case "delete_owner":
+                $email = $_POST['uemail'];
+                delete_owner($email);
+                $extender = "#owner";
+                break;
+
+            case "update_owner":
+                $fname = $_POST['ufName'];
+                $lname = $_POST['ulName'];
+                $email = $_POST['uemail'];
+                $number = $_POST['unumber'];
+                $address = $_POST['uaddress'];
+                $sex = $_POST['usex'];
+                $pass = $_POST['upassword'];
+                update_owner($fname, $lname, $email, $number, $address, $sex, $pass);
+                $extender = "#owner";
+                break;
+
+            case "delete_product_admin":
+                $pid = $_POST['pid'];
+                delete_product_admin($pid);
+                $extender = "#product";
+                break;
+
+            case "update_product_admin":
+                $title = $_POST['utitle'];
+                $imagefile = $_POST['uimagefile'];
+                $price = $_POST['uprice'];
+                $category = $_POST['utype'];
+                $owneremail = $_POST['uowner'];
+                $pid = $_POST['pid'];
+                update_product_admin($title, $imagefile, $category, $price, $owneremail, $pid);
+                $extender = "#product";
+                break;
+
+            case "delete_user_admin":
+                $email = $_POST['eemail'];
+                delete_user_admin($email);
+                $extender = "#user";
+                break;
+
+            case "update_user_admin":
+                $fname = $_POST['efName'];
+                $lname = $_POST['elName'];
+                $email = $_POST['eemail'];
+                $number = $_POST['enumber'];
+                $address = $_POST['eaddress'];
+                $company = $_POST['ecompany'];
+                $sex = $_POST['esex'];
+                $pass = $_POST['epassword'];
+                update_user_admin($fname, $lname, $email, $number, $address, $sex, $pass, $company);
+                $extender = "#user";
                 break;
 
             default:

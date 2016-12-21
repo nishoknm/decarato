@@ -28,6 +28,13 @@
         return $users;
     }
 
+    function get_owners() {
+        global $db;
+        $query = "SELECT * FROM owner";
+        $owners = $db->query($query);
+        return $owners;
+    }
+
     function get_owner($email) {
         if(!empty($email))
         {
@@ -42,8 +49,15 @@
     function get_products() {
         global $db;
         $pquery = "SELECT * FROM product";
-        $papers = $db->query($pquery);
-        return $papers;
+        $products = $db->query($pquery);
+        return $products;
+    }
+
+    function get_catalogs() {
+        global $db;
+        $pquery = "SELECT * FROM category";
+        $catalogs = $db->query($pquery);
+        return $catalogs;
     }
 
     function get_products_cat($id) {
@@ -126,11 +140,11 @@
         }
     }
 
-    function get_owner_email_pass($email, $pass) {
-        if((!empty($email) && !empty($pass)))
+    function get_owner_email_pass($email) {
+        if((!empty($email)))
         {
             global $db;
-            $query = "SELECT password, email FROM owner WHERE email = '$email' AND password = '$pass'";
+            $query = "SELECT * FROM owner WHERE email = '$email'";
             $users = $db->query($query);
             $user = mysqli_fetch_assoc($users);
             return $user;
@@ -254,6 +268,102 @@
         {
             global $db;
             $query = "UPDATE product SET title = '$title', imagefile = '$imagefile', type = '$category', owneremail = '$owneremail', price = '$price' WHERE productid = '$pid' ";
+            $db->prepare($query)->execute();
+        }
+    }
+
+    function add_catalog($title) {
+        if((!empty($title)))
+        {
+            global $db;
+            $query = "INSERT INTO category
+                (title)
+                      VALUES
+                ('$title')"; 
+            $db->prepare($query)->execute();
+        }
+    }
+
+    function delete_catalog($cid) {
+        if((!empty($cid)))
+        {
+            global $db;
+            $query = "DELETE FROM category WHERE id = '$cid'"; 
+            $db->prepare($query)->execute();
+        }
+    }
+
+    function update_catalog($title, $cid) {
+        if((!empty($title) && !empty($cid)))
+        {
+            global $db;
+            $query = "UPDATE category SET title = '$title' WHERE id = '$cid' ";
+            $db->prepare($query)->execute();
+        }
+    }
+
+    function add_owner($fname, $lname, $email, $number, $address, $sex, $pass) {
+        if((!empty($fname) && !empty($lname) && !empty($email) && !empty($number) && !empty($address) && !empty($sex) && !empty($pass)))
+        {
+            global $db;
+            $query = "INSERT INTO owner
+                (email, fname, lname, password, number, address, sex)
+                      VALUES
+                ('$email', '$fname', '$lname', '$pass', '$number', '$address', '$sex')";
+            $db->prepare($query)->execute();
+        }
+    }
+
+    function delete_owner($email) {
+        if((!empty($email)))
+        {
+            global $db;
+            $query = "DELETE FROM owner WHERE email = '$email'"; 
+            $db->prepare($query)->execute();
+        }
+    }
+
+    function update_owner($fname, $lname, $email, $number, $address, $sex, $pass) {
+        if((!empty($fname) && !empty($lname) && !empty($email) && !empty($number) && !empty($address) && !empty($sex) && !empty($pass)))
+        {
+            global $db;
+            $query = "UPDATE owner SET fname = '$fname', lname = '$lname', password = '$pass', number = '$number', address = '$address', sex = '$sex' WHERE email = '$email' ";
+            $db->prepare($query)->execute();
+        }
+    }
+
+    function delete_product_admin($pid) {
+        if((!empty($pid)))
+        {
+            global $db;
+            $query = "DELETE FROM product WHERE productid = '$pid'"; 
+            $db->prepare($query)->execute();
+        }
+    }
+
+    function update_product_admin($title, $imagefile, $category, $price, $owneremail, $pid) {
+        if((!empty($title) && !empty($pid) && !empty($imagefile) && !empty($owneremail) && !empty($category) && !empty($price)))
+        {
+            global $db;
+            $query = "UPDATE product SET title = '$title', imagefile = '$imagefile', type = '$category', owneremail = '$owneremail', price = '$price' WHERE productid = '$pid' ";
+            $db->prepare($query)->execute();
+        }
+    }
+
+    function delete_user_admin($email) {
+        if((!empty($email)))
+        {
+            global $db;
+            $query = "DELETE FROM users WHERE email = '$email'"; 
+            $db->prepare($query)->execute();
+        }
+    }
+
+    function update_user_admin($fname, $lname, $email, $number, $address, $sex, $pass, $company) {
+        if((!empty($fname) && !empty($lname) && !empty($email) && !empty($number) && !empty($address) && !empty($sex) && !empty($pass) && !empty($company)))
+        {
+            global $db;
+            $query = "UPDATE users SET fname = '$fname', password = '$pass', lname = '$lname', number = '$number', address = '$address', company = '$company', sex = '$sex' WHERE email = '$email' ";
             $db->prepare($query)->execute();
         }
     }

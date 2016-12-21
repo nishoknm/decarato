@@ -3,11 +3,10 @@ session_start();
 if(!empty($_SESSION["admin"]))
 {
     require_once('../database.php');
-    $reviewers = get_reviewers();
+    $owners = get_owners();
     $users = get_users();
-    $papers = get_papers();
-    $rpapers = get_review_papers();
-    $comments = get_comments();
+    $products = get_products();
+    $catalogs = get_catalogs();
 }
 ?>
 <!DOCTYPE html>
@@ -16,7 +15,7 @@ if(!empty($_SESSION["admin"]))
         <link rel="stylesheet" type="text/css" href="../default.css">
         <script>
         if (document.location.hash == "" || document.location.hash == "#")
-            document.location.hash = "#reviewer";
+            document.location.hash = "#owner";
 
         var currentForm;
 
@@ -145,23 +144,23 @@ if(!empty($_SESSION["admin"]))
                     <div class="col-xs-2 colorblock-6"></div>
                 </div>
                 <ul id="mainlist">
-                    <li><a href="#reviewer">Reviewer</a> | </li>
-                    <li><a href="#rpaper">Reviewer Papers</a> | </li>
-                    <li><a href="#user">Users</a> | </li>
-                    <li><a href="#comments">Comments</a></li>
+                    <li><a href="#owner">Owner</a> | </li>
+                    <li><a href="#product">Product</a> | </li>
+                    <li><a href="#user">User</a> | </li>
+                    <li><a href="#catalog">Catalog</a></li>
                 </ul>
             </div>
             <div id="entrycontent">
                 <section>
-                    <div class="admintable" id="reviewer">
+                    <div class="admintable" id="owner">
                         <div class="pvl toolbar">
-                            <div class="_52lq">Add Reviewer</div>
+                            <div class="_52lq">Add owner</div>
                         </div>
                         <div>
-                            <form action="../model.php" method="post" id="reviewerform" name="reviewerform">
+                            <form action="../model.php" method="post" id="ownerform" name="ownerform">
                                 <div class="toolbar">
-                                    <button id="delete" disabled class="u_admin_toolbar" type="submit" name="websubmit" value="delete_reviewer">Delete</button>
-                                    <button id="update" disabled class="u_admin_toolbar" type="submit" name="websubmit" value="update_reviewer">Update</button>
+                                    <button id="delete" disabled class="u_admin_toolbar" type="submit" name="websubmit" value="delete_owner">Delete</button>
+                                    <button id="update" disabled class="u_admin_toolbar" type="submit" name="websubmit" value="update_owner">Update</button>
                                 </div>
                                 <table class="admint">
                                     <thead>
@@ -177,18 +176,18 @@ if(!empty($_SESSION["admin"]))
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    <?php foreach ( $reviewers as $reviewer ) : ?>
+                                    <?php foreach ( $owners as $owner ) : ?>
                                         <tr>
                                             <td><input class="check" xname="check" onclick="oncheck(event, false)" type="checkbox"></td>
-                                            <td><input disabled readonly class="ainputtext" xname="uemail" value='<?php echo $reviewer['email']; ?>' ></td>
-                                            <td><input disabled class="ainputtext" xname="ufName" value='<?php echo $reviewer['fname']; ?>' ></td>
-                                            <td><input disabled class="ainputtext" xname="ulName" value='<?php echo $reviewer['lname']; ?>' ></td>
-                                            <td><input disabled class="ainputtext" xname="unumber" value='<?php echo $reviewer['number']; ?>' ></td>
-                                            <td><input disabled class="ainputtext" xname="upassword" value='<?php echo $reviewer['password']; ?>' ></td>
-                                            <td><input disabled class="ainputtext" xname="uaddress" value='<?php echo $reviewer['address']; ?>' ></td>
+                                            <td><input disabled readonly class="ainputtext" xname="uemail" value='<?php echo $owner['email']; ?>' ></td>
+                                            <td><input disabled class="ainputtext" xname="ufName" value='<?php echo $owner['fname']; ?>' ></td>
+                                            <td><input disabled class="ainputtext" xname="ulName" value='<?php echo $owner['lname']; ?>' ></td>
+                                            <td><input disabled class="ainputtext" xname="unumber" value='<?php echo $owner['number']; ?>' ></td>
+                                            <td><input disabled class="ainputtext" xname="upassword" value='<?php echo $owner['password']; ?>' ></td>
+                                            <td><input disabled class="ainputtext" xname="uaddress" value='<?php echo $owner['address']; ?>' ></td>
                                             <td>
                                                 <select disabled class="ainputtext" xname="usex" readonly>
-                                                    <?php if ($reviewer['sex'] == 'Male'): ?>
+                                                    <?php if ($owner['sex'] == 'Male'): ?>
                                                         <option value="Male" title="Male" selected>Male</option>
                                                         <option value="Female" title="Female">Female</option>
                                                     <?php else: ?>
@@ -201,14 +200,14 @@ if(!empty($_SESSION["admin"]))
                                     <?php endforeach; ?>
                                         <tr>
                                             <td></td>
-                                            <td><input name="email" placeholder="Email" type="text" class="ainputtext transparent"></td>
-                                            <td><input name="fName" placeholder="First name" type="text" class="ainputtext transparent"></td>
-                                            <td><input name="lName" placeholder="Last name" type="text" class="ainputtext transparent"></td>
-                                            <td><input name="number" placeholder="Mobile number" type="text" class="ainputtext transparent"></td>
-                                            <td><input name="password" placeholder="New password" type="password" class="ainputtext transparent"></td>
-                                            <td><input name="address" placeholder="Address" type="text" class="ainputtext transparent"></td>
+                                            <td><input name="email" placeholder="Email" type="text" class="ainputtext"></td>
+                                            <td><input name="fName" placeholder="First name" type="text" class="ainputtext"></td>
+                                            <td><input name="lName" placeholder="Last name" type="text" class="ainputtext"></td>
+                                            <td><input name="number" placeholder="Mobile number" type="text" class="ainputtext"></td>
+                                            <td><input name="password" placeholder="New password" type="password" class="ainputtext"></td>
+                                            <td><input name="address" placeholder="Address" type="text" class="ainputtext"></td>
                                             <td>
-                                                <select name="sex" id="sex" class="ainputtext transparent">
+                                                <select name="sex" id="sex" class="ainputtext">
                                                     <option value="select">--Select--</option>
                                                     <option value="Male" title="Male">Male</option>
                                                     <option value="Female" title="Female">Female</option>
@@ -219,89 +218,47 @@ if(!empty($_SESSION["admin"]))
                                 </table>
                                 <div class="adminc">
                                     <div class="clearfix">
-                                        <button type="submit" class="_52lq" name="websubmit" value="add_reviewer" id="u_admin_review">Add Reviewer</button>
+                                        <button type="submit" class="_52lq" name="websubmit" value="add_owner" id="u_admin_review">Add owner</button>
                                     </div>
                                 </div>
                             </form>
                         </div>
                     </div>
-                    <div class="admintable" id="rpaper">
+                    <div class="admintable" id="product">
                         <div class="pvl toolbar">
-                            <div class="_52lq">Edit Review Paper Information</div>
+                            <div class="_52lq">Edit Product Information</div>
                         </div>
                         <div>
-                            <form action="../model.php" method="post" id="reviewerpaperform" name="reviewerpaperform">
+                            <form action="../model.php" method="post" id="adminproductform" name="adminproductform">
                                 <div class="toolbar">
-                                    <button id="delete" disabled class="u_admin_toolbar" type="submit" name="websubmit" value="delete_rpaper">Delete</button>
-                                    <button id="update" disabled class="u_admin_toolbar" type="submit" name="websubmit" value="update_rpaper">Update</button>
+                                    <button id="delete" disabled class="u_admin_toolbar" type="submit" name="websubmit" value="delete_product_admin">Delete</button>
+                                    <button id="update" disabled class="u_admin_toolbar" type="submit" name="websubmit" value="update_product_admin">Update</button>
                                 </div>
                                 <table class="admint">
-                                    <thead>
-                                        <tr>
-                                            <th class="checkcell"></th>
-                                            <th><input class="ainputtext" readonly value="Reviewer Email"></th>
-                                            <th><input class="ainputtext" readonly value="Paper Title"></th>
-                                            <th><input class="ainputtext" readonly value="File Name"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    <?php foreach ( $rpapers as $rpaper ) : ?>
-                                        <tr>
-                                            <td><input class="check" xname="check" onclick="oncheck(event,true)" type="checkbox"></td>
-                                            <td>
-                                                <select disabled class="ainputtext" xname="rfemail">
-                                                    <?php foreach ( $reviewers as $reviewer ) : ?>
-                                                        <?php if ($rpaper['email'] == $reviewer['email']): ?>
-                                                            <option value='<?php echo $reviewer['email']; ?>' title="Reviewer Email" selected><?php echo $reviewer['email']; ?></option>
-                                                        <?php else: ?>
-                                                            <option value='<?php echo $reviewer['email']; ?>' title="Reviewer Email"><?php echo $reviewer['email']; ?></option>
-                                                        <?php endif ?>
-                                                    <?php endforeach; ?>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <select disabled class="ainputtext" xname="rftitle" onchange="setFile(event)">
-                                                    <?php foreach ( $papers as $paper ) : ?>
-                                                        <?php if ($rpaper['paperid'] == $paper['paperid']): ?>
-                                                            <option value='<?php echo $paper['paperid']; ?>' filename='<?php echo $paper['file']; ?>' title="Paper Title" selected><?php echo $paper['title']; ?></option>
-                                                        <?php else: ?>
-                                                            <option value='<?php echo $paper['paperid']; ?>' filename='<?php echo $paper['file']; ?>' title="Paper Title"><?php echo $paper['title']; ?></option>
-                                                        <?php endif ?>
-                                                    <?php endforeach; ?>
-                                                </select>
-                                            </td>
-                                            <td><input id="file" disabled readonly class="ainputtext" xname="rffilename" value='<?php echo $rpaper['file']; ?>' ></td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                        <tr>
-                                            <td></td>
-                                            <td>
-                                                <select class="ainputtext transparent" name="email">
-                                                    <option value="-- Select Reviewer Email --">-- Select Reviewer Email --</option>
-                                                    <?php foreach ( $reviewers as $reviewer ) : ?>
-                                                        <option value='<?php echo $reviewer['email']; ?>' title="Reviewer Email"><?php echo $reviewer['email']; ?></option>
-                                                    <?php endforeach; ?>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <select class="ainputtext transparent" name="title" onchange="setFile(event)">
-                                                    <option value="-- Select a Paper --">-- Select a Paper --</option>
-                                                    <?php foreach ( $papers as $paper ) : ?>
-                                                        <option value='<?php echo $paper['paperid']; ?>' filename='<?php echo $paper['file']; ?>' title="Paper Title"><?php echo $paper['title']; ?></option>
-                                                    <?php endforeach; ?>
-                                                </select>
-                                            </td>
-                                            <td><input id="file" readonly name="filename" placeholder="File Name" type="text" class="ainputtext transparent"></td>
-                                        </tr>
-                                    </tbody>
+                                <thead>
+                                    <tr>
+                                        <th class="checkcell"></th>
+                                        <th><input class="ainputtext" readonly value="Title"></th>
+                                        <th><input class="ainputtext" readonly value="Image file"></th>
+                                        <th><input class="ainputtext" readonly value="Owner"></th>
+                                        <th><input class="ainputtext" readonly value="Category"></th>
+                                        <th><input class="ainputtext" readonly value="price"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <?php foreach ( $products as $product ) : ?>
+                                    <tr>
+                                        <td><input class="check" xname="check" onclick="oncheck(event, false)" type="checkbox"></td>
+                                        <td><input disabled class="ainputtext" xname="utitle" value='<?php echo $product['title']; ?>' ></td>
+                                        <td><input disabled class="ainputtext" xname="uimagefile" value='<?php echo $product['imagefile']; ?>' ></td>
+                                        <td><input disabled class="ainputtext" xname="uowner" value='<?php echo $product['owneremail']; ?>' ></td>
+                                        <td><input disabled class="ainputtext" xname="utype" value='<?php echo $product['type']; ?>' ></td>
+                                        <td><input disabled class="ainputtext" xname="uprice" value='<?php echo $product['price']; ?>' ></td>
+                                        <td style="display:none"><input xname="pid" value='<?php echo $product['productid']; ?>' style="display:none"></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                </tbody>
                                 </table>
-                                <div class="adminc">
-                                    <div class="clearfix">
-                                        <button type="submit" class="_52lq" name="websubmit" value="add_rpaper" id="u_admin_review">Add Review Paper</button>
-                                    </div>
-                                </div>
-                                <input id="old" name="old_email" value='' oldname="rfemail" style="display:none">
-                                <input id="old" name="old_paperid" value='' oldname="rftitle" style="display:none">
                             </form>
                         </div>
                     </div>
@@ -312,8 +269,8 @@ if(!empty($_SESSION["admin"]))
                         <div>
                             <form action="../model.php" method="post" id="userform" name="userform">
                                 <div class="toolbar">
-                                    <button id="delete" disabled class="u_admin_toolbar" type="submit" name="websubmit" value="delete_user">Delete</button>
-                                    <button id="update" disabled class="u_admin_toolbar" type="submit" name="websubmit" value="update_user">Update</button>
+                                    <button id="delete" disabled class="u_admin_toolbar" type="submit" name="websubmit" value="delete_user_admin">Delete</button>
+                                    <button id="update" disabled class="u_admin_toolbar" type="submit" name="websubmit" value="update_user_admin">Update</button>
                                 </div>
                                 <table class="admint">
                                     <thead>
@@ -324,8 +281,8 @@ if(!empty($_SESSION["admin"]))
                                             <th><input class="ainputtext" readonly value="Last Name"></th>
                                             <th><input class="ainputtext" readonly value="Number"></th>
                                             <th><input class="ainputtext" readonly value="Password"></th>
+                                            <th><input class="ainputtext" readonly value="Company"></th>
                                             <th><input class="ainputtext" readonly value="Address"></th>
-                                            <th><input class="ainputtext" readonly value="Attendee"></th>
                                             <th><input class="ainputtext" readonly value="Sex"></th>
                                         </tr>
                                     </thead>
@@ -338,24 +295,8 @@ if(!empty($_SESSION["admin"]))
                                             <td><input disabled class="ainputtext" xname="elName" value='<?php echo $user['lname']; ?>' ></td>
                                             <td><input disabled class="ainputtext" xname="enumber" value='<?php echo $user['number']; ?>' ></td>
                                             <td><input disabled class="ainputtext" xname="epassword" value='<?php echo $user['password']; ?>' ></td>
+                                            <td><input disabled class="ainputtext" xname="ecompany" value='<?php echo $user['company']; ?>' ></td>
                                             <td><input disabled class="ainputtext" xname="eaddress" value='<?php echo $user['address']; ?>' ></td>
-                                            <td>
-                                                <select disabled class="ainputtext" xname="eattendee">
-                                                    <?php if ($user['attendee'] == 'Author'): ?>
-                                                        <option value="Author" title="Paper Title" selected>Author</option>
-                                                        <option value="Student" title="Paper Title">Student</option>
-                                                        <option value="Regular Attendee" title="Paper Title">Regular Attendee</option>
-                                                    <?php elseif ($user['attendee'] == 'Student'): ?>
-                                                        <option value="Author" title="Paper Title">Author</option>
-                                                        <option value="Student" title="Paper Title" selected>Student</option>
-                                                        <option value="Regular Attendee" title="Paper Title">Regular Attendee</option>
-                                                    <?php else: ?>
-                                                        <option value="Author" title="Paper Title">Author</option>
-                                                        <option value="Student" title="Paper Title">Student</option>
-                                                        <option value="Regular Attendee" title="Paper Title" selected>Regular Attendee</option>
-                                                    <?php endif ?>
-                                                </select>
-                                            </td>
                                             <td>
                                                 <select disabled class="ainputtext" xname="esex" readonly>
                                                     <?php if ($user['sex'] == 'Male'): ?>
@@ -374,43 +315,43 @@ if(!empty($_SESSION["admin"]))
                             </form>
                         </div>
                     </div>
-                    <div class="admintable" id="comments">
-                        <div id="signup">
-                            <div class="cpvl">
-                                <div class="_52lq">Comments</div>
-                            </div>
-                            <ul>
-                                <?php foreach ( $comments as $comment ) : ?>
-                                    <li>
-                                        <div id="reg_form_box" class="large_form">
-                                            <div class="mbm">
-                                                <div class="uiStickyPlaceholderInput uiStickyPlaceholderEmptyInput">
-                                                    <div class="placeholder"><b>Full Name : </b>
-                                                        <?php echo $comment['lname'].", ".$comment['fname'] ?>
-                                                    </div>
-                                                    <input disabled name="name" type="text" class="inputtext transparent _58mg">
-                                                </div>
-                                            </div>
-                                            <div class="mbm">
-                                                <div class="uiStickyPlaceholderInput uiStickyPlaceholderEmptyInput">
-                                                    <div class="placeholder"><b>E-mail : </b>
-                                                        <?php echo $comment['email'] ?>
-                                                    </div>
-                                                    <input disabled name="email" type="text" class="inputtext transparent _58mg">
-                                                </div>
-                                            </div>
-                                            <div class="mbm">
-                                                <div class="uiStickyPlaceholderInput uiStickyPlaceholderEmptyInput">
-                                                    <div class="placeholder"><b>Comments : </b>
-                                                        <?php echo $comment['comment'] ?>
-                                                    </div>
-                                                    <textarea disabled name="email" type="text" class="inputtext transparent _58mg"></textarea>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                <?php endforeach; ?>
-                            </ul>
+                    <div class="admintable" id="catalog">
+                        <div class="pvl toolbar">
+                            <div class="_52lq">Catalog Information</div>
+                        </div>
+                        <div>
+                            <form action="../model.php" method="post" id="catalogform" name="catalogform">
+                                <div class="toolbar">
+                                    <button id="delete" disabled class="u_admin_toolbar" type="submit" name="websubmit" value="delete_catalog">Delete</button>
+                                    <button id="update" disabled class="u_admin_toolbar" type="submit" name="websubmit" value="update_catalog">Update</button>
+                                </div>
+                                <table class="admint">
+                                    <thead>
+                                        <tr>
+                                            <th class="checkcell"></th>
+                                            <th><input class="ainputtext" readonly value="Title"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php foreach ( $catalogs as $catalog ) : ?>
+                                        <tr>
+                                            <td><input class="check" xname="check" onclick="oncheck(event, false)" type="checkbox"></td>
+                                            <td><input disabled class="ainputtext" xname="uatitle" value='<?php echo $catalog['title']; ?>' ></td>
+                                            <td style="display:none"><input xname="cid" value='<?php echo $catalog['id']; ?>' style="display:none"></td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                        <tr>
+                                            <td></td>
+                                            <td><input name="atitle" placeholder="Title for the Catalog" type="text" class="ainputtext"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="adminc">
+                                    <div class="clearfix">
+                                        <button type="submit" class="_52lq" name="websubmit" value="add_catalog" id="u_admin_review">Add Catalog</button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </section>
