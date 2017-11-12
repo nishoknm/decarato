@@ -1,8 +1,9 @@
 /*
 SQLyog Community v12.3.2 (64 bit)
-MySQL - 10.1.19-MariaDB : Database - narasimh_decarato
+MySQL - 10.1.19-MariaDB : Database - vodithal_cosmetic
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -12,9 +13,9 @@ MySQL - 10.1.19-MariaDB : Database - narasimh_decarato
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-CREATE DATABASE /*!32312 IF NOT EXISTS*/`narasimh_decarato` /*!40100 DEFAULT CHARACTER SET latin1 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`vodithal_cosmetic` /*!40100 DEFAULT CHARACTER SET latin1 */;
 
-USE `narasimh_decarato`;
+USE `vodithal_cosmetic`;
 
 /*Table structure for table `admin` */
 
@@ -28,24 +29,10 @@ CREATE TABLE `admin` (
 
 /*Data for the table `admin` */
 
-insert  into `admin`(`email`,`password`) values 
+insert  into `admin`(`email`,`password`) values 
+
 ('admin','admin');
 
-/*Table structure for table `cart` */
-
-DROP TABLE IF EXISTS `cart`;
-
-CREATE TABLE `cart` (
-  `useremail` varchar(255) NOT NULL,
-  `productid` int(255) NOT NULL,
-  `quantity` int(255) NOT NULL,
-  KEY `cartuseremail` (`useremail`),
-  KEY `cartproductid` (`productid`),
-  CONSTRAINT `cartproductid` FOREIGN KEY (`productid`) REFERENCES `product` (`productid`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `cartuseremail` FOREIGN KEY (`useremail`) REFERENCES `users` (`email`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-/*Data for the table `cart` */
 
 /*Table structure for table `category` */
 
@@ -59,11 +46,16 @@ CREATE TABLE `category` (
 
 /*Data for the table `category` */
 
-insert  into `category`(`id`,`title`) values 
-(1,'table'),
-(2,'chair'),
-(3,'lamp'),
-(4,'bed'),
+insert  into `category`(`id`,`title`) values 
+
+(1,'table'),
+
+(2,'chair'),
+
+(3,'lamp'),
+
+(4,'bed'),
+
 (5,'shelf');
 
 /*Table structure for table `owner` */
@@ -83,25 +75,9 @@ CREATE TABLE `owner` (
 
 /*Data for the table `owner` */
 
-insert  into `owner`(`email`,`fname`,`lname`,`password`,`number`,`address`,`sex`) values 
+insert  into `owner`(`email`,`fname`,`lname`,`password`,`number`,`address`,`sex`) values 
+
 ('owner@gmail.com','owner','owner','owner','9000981633','Montclair','Female');
-
-/*Table structure for table `paymentinfo` */
-
-DROP TABLE IF EXISTS `paymentinfo`;
-
-CREATE TABLE `paymentinfo` (
-  `useremail` varchar(255) NOT NULL,
-  `cardnumber` char(255) NOT NULL,
-  `cardtype` varchar(255) DEFAULT NULL,
-  `cvv` int(255) DEFAULT NULL,
-  `expiry` date DEFAULT NULL,
-  PRIMARY KEY (`cardnumber`),
-  KEY `paymentemail` (`useremail`),
-  CONSTRAINT `paymentemail` FOREIGN KEY (`useremail`) REFERENCES `users` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-/*Data for the table `paymentinfo` */
 
 /*Table structure for table `product` */
 
@@ -124,36 +100,66 @@ CREATE TABLE `product` (
 
 /*Data for the table `product` */
 
-insert  into `product`(`title`,`imagefile`,`type`,`owneremail`,`productid`,`price`) values 
-('Table1','../images/products/table1.jpg',1,'owner@gmail.com',8,20),
-('Table2','../images/products/table2.jpg',1,'owner@gmail.com',10,15),
-('Chair1','../images/products/chair1.jpg',2,'owner@gmail.com',16,35),
-('Chair2','../images/products/chair2.jpg',2,'owner@gmail.com',17,20),
-('Table3','../images/products/table3.jpg',1,'owner@gmail.com',18,20),
-('Chair3','../images/products/chair3.jpg',2,'owner@gmail.com',19,60),
-('Bed1','../images/products/bed1.jpg',4,'owner@gmail.com',20,80),
-('Bed2','../images/products/bed2.jpg',4,'owner@gmail.com',21,100),
-('Bed3','../images/products/bed3.jpg',4,'owner@gmail.com',22,400),
-('Lamp1','../images/products/lamp1.jpg',3,'owner@gmail.com',23,200),
-('Lamp2','../images/products/lamp2.jpg',3,'owner@gmail.com',24,100),
-('Lamp3','../images/products/lamp3.jpg',3,'owner@gmail.com',25,250),
-('Table4','../images/products/table4.jpg',1,'owner@gmail.com',28,100),
-('Table5','../images/products/table5.jpg',1,'owner@gmail.com',29,150),
-('Chair4','../images/products/chair4.jpg',2,'owner@gmail.com',30,200),
-('Chair5','../images/products/chair5.jpg',2,'owner@gmail.com',31,50),
-('Bed4','../images/products/bed4.jpg',4,'owner@gmail.com',33,70),
-('Bed5','../images/products/bed5.jpg',4,'owner@gmail.com',34,85),
-('Lamp4','../images/products/lamp4.jpg',3,'owner@gmail.com',35,90),
-('Lamp5','../images/products/lamp5.jpg',3,'owner@gmail.com',36,400),
-('Shelf1','../images/products/shelf1.jpg',5,'owner@gmail.com',39,20),
-('Shelf2','../images/products/shelf2.jpg',5,'owner@gmail.com',40,10),
-('Shelf3','../images/products/shelf3.jpg',5,'owner@gmail.com',41,100),
-('Shelf4','../images/products/shelf4.jpg',5,'owner@gmail.com',42,150),
-('Shelf5','../images/products/shelf5.jpg',5,'owner@gmail.com',43,140),
-('Shelf6','../images/products/shelf6.jpg',5,'owner@gmail.com',44,200),
-('Table6','../images/products/table6.jpg',1,'owner@gmail.com',45,200),
-('Chair6','../images/products/chair6.jpg',2,'owner@gmail.com',46,200),
-('Lamp6','../images/products/lamp6.jpg',3,'owner@gmail.com',47,200),
+insert  into `product`(`title`,`imagefile`,`type`,`owneremail`,`productid`,`price`) values 
+
+('Table1','../images/products/table1.jpg',1,'owner@gmail.com',8,20),
+
+('Table2','../images/products/table2.jpg',1,'owner@gmail.com',10,15),
+
+('Chair1','../images/products/chair1.jpg',2,'owner@gmail.com',16,35),
+
+('Chair2','../images/products/chair2.jpg',2,'owner@gmail.com',17,20),
+
+('Table3','../images/products/table3.jpg',1,'owner@gmail.com',18,20),
+
+('Chair3','../images/products/chair3.jpg',2,'owner@gmail.com',19,60),
+
+('Bed1','../images/products/bed1.jpg',4,'owner@gmail.com',20,80),
+
+('Bed2','../images/products/bed2.jpg',4,'owner@gmail.com',21,100),
+
+('Bed3','../images/products/bed3.jpg',4,'owner@gmail.com',22,400),
+
+('Lamp1','../images/products/lamp1.jpg',3,'owner@gmail.com',23,200),
+
+('Lamp2','../images/products/lamp2.jpg',3,'owner@gmail.com',24,100),
+
+('Lamp3','../images/products/lamp3.jpg',3,'owner@gmail.com',25,250),
+
+('Table4','../images/products/table4.jpg',1,'owner@gmail.com',28,100),
+
+('Table5','../images/products/table5.jpg',1,'owner@gmail.com',29,150),
+
+('Chair4','../images/products/chair4.jpg',2,'owner@gmail.com',30,200),
+
+('Chair5','../images/products/chair5.jpg',2,'owner@gmail.com',31,50),
+
+('Bed4','../images/products/bed4.jpg',4,'owner@gmail.com',33,70),
+
+('Bed5','../images/products/bed5.jpg',4,'owner@gmail.com',34,85),
+
+('Lamp4','../images/products/lamp4.jpg',3,'owner@gmail.com',35,90),
+
+('Lamp5','../images/products/lamp5.jpg',3,'owner@gmail.com',36,400),
+
+('Shelf1','../images/products/shelf1.jpg',5,'owner@gmail.com',39,20),
+
+('Shelf2','../images/products/shelf2.jpg',5,'owner@gmail.com',40,10),
+
+('Shelf3','../images/products/shelf3.jpg',5,'owner@gmail.com',41,100),
+
+('Shelf4','../images/products/shelf4.jpg',5,'owner@gmail.com',42,150),
+
+('Shelf5','../images/products/shelf5.jpg',5,'owner@gmail.com',43,140),
+
+('Shelf6','../images/products/shelf6.jpg',5,'owner@gmail.com',44,200),
+
+('Table6','../images/products/table6.jpg',1,'owner@gmail.com',45,200),
+
+('Chair6','../images/products/chair6.jpg',2,'owner@gmail.com',46,200),
+
+('Lamp6','../images/products/lamp6.jpg',3,'owner@gmail.com',47,200),
+
 ('Bed6','../images/products/bed6.jpg',4,'owner@gmail.com',48,200);
 
 /*Table structure for table `productowner` */
@@ -171,8 +177,44 @@ CREATE TABLE `productowner` (
 
 /*Data for the table `productowner` */
 
-insert  into `productowner`(`owneremail`,`productid`) values 
+insert  into `productowner`(`owneremail`,`productid`) values 
+
 ('owner@gmail.com',8);
+
+/*Table structure for table `users` */
+
+DROP TABLE IF EXISTS `users`;
+
+CREATE TABLE `users` (
+  `fname` varchar(150) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `lname` varchar(150) NOT NULL,
+  `email` varchar(150) NOT NULL,
+  `number` varchar(150) NOT NULL,
+  `address` varchar(150) NOT NULL,
+  `company` varchar(150) NOT NULL,
+  `sex` varchar(150) NOT NULL,
+  PRIMARY KEY (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `users` */
+
+/*Table structure for table `paymentinfo` */
+
+DROP TABLE IF EXISTS `paymentinfo`;
+
+CREATE TABLE `paymentinfo` (
+  `useremail` varchar(255) NOT NULL,
+  `cardnumber` char(255) NOT NULL,
+  `cardtype` varchar(255) DEFAULT NULL,
+  `cvv` int(255) DEFAULT NULL,
+  `expiry` date DEFAULT NULL,
+  PRIMARY KEY (`cardnumber`),
+  KEY `paymentemail` (`useremail`),
+  CONSTRAINT `paymentemail` FOREIGN KEY (`useremail`) REFERENCES `users` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `paymentinfo` */
 
 /*Table structure for table `transactions` */
 
@@ -211,23 +253,21 @@ CREATE TABLE `userproduct` (
 
 /*Data for the table `userproduct` */
 
-/*Table structure for table `users` */
+/*Table structure for table `cart` */
 
-DROP TABLE IF EXISTS `users`;
+DROP TABLE IF EXISTS `cart`;
 
-CREATE TABLE `users` (
-  `fname` varchar(150) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `lname` varchar(150) NOT NULL,
-  `email` varchar(150) NOT NULL,
-  `number` varchar(150) NOT NULL,
-  `address` varchar(150) NOT NULL,
-  `company` varchar(150) NOT NULL,
-  `sex` varchar(150) NOT NULL,
-  PRIMARY KEY (`email`)
+CREATE TABLE `cart` (
+  `useremail` varchar(255) NOT NULL,
+  `productid` int(255) NOT NULL,
+  `quantity` int(255) NOT NULL,
+  KEY `cartuseremail` (`useremail`),
+  KEY `cartproductid` (`productid`),
+  CONSTRAINT `cartproductid` FOREIGN KEY (`productid`) REFERENCES `product` (`productid`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `cartuseremail` FOREIGN KEY (`useremail`) REFERENCES `users` (`email`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-/*Data for the table `users` */
+/*Data for the table `cart` */
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
